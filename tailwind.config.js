@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
+  mode: "jit",
+  darkMode: "class",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -7,12 +11,26 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      fontFamily: {
+        sans: ['"Open Sans"', ...defaultTheme.fontFamily.sans],
+
+        montserrat: ['"Montserrat"', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        "primary-dark": "#4A4A4A",
+        "primary-light": "#F2F2F2",
+        secondary: {
+          100: "#E2E2D5",
+          200: "#888883",
+          300: "#77CCDD",
+        },
       },
     },
   },
-  plugins: [],
+  varients: {
+    extend: {
+      typography: ["dark"],
+    },
+  },
+  plugins: [require("@tailwindcss/typography")],
 };
