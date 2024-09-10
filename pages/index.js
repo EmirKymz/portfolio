@@ -123,9 +123,9 @@ export default function Home() {
                         Oriented Programming = ["C++", "Python", "Java"];{" "}
                       </p>
                       <p className="text-gray-300 mb-2">
-                        <span className="text-sky-600 font-bold"> {">"} </span> Anothers =
+                        <span className="text-sky-600 font-bold"> {">"} </span> More =
                         ["Bash Script", "Docker", "Linux", "React-Native",
-                        "React", "Cobol"];{" "}
+                        "React", "Cobol", "JavaScript"];{" "}
                       </p>
                     </div>
                   </div>
