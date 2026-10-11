@@ -1,40 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# emircankaymaz.com
 
-## Getting Started
+Personal portfolio of Emircan Kaymaz, built as a retro computer: press POWER on the desk, boot into EmirOS, then explore through a Linux-style terminal or a Y2K browser. Includes Snake, Breakout, a typing test and an offline dino game. Turkish and English.
 
-First, run the development server:
+## Stack
+
+- React 18 + Vite, static build
+- Nginx (alpine) in Docker
+- GitHub Actions → GHCR → server via SSH (`docker compose pull && up -d`)
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:5173
+npm run build      # outputs dist/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project layout
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+| Path | What |
+|---|---|
+| `design/Main.dc.html` | Source design (scene, OS, terminal, content) |
+| `tools/convert_dc.py` | Generates `src/App.jsx`, `src/ek.js`, `src/styles.css` from the design |
+| `src/ek.js` | All text content: terminal commands, portfolio data (TR/EN) |
+| `cv/make_cv.py` | Generates the TR/EN CV PDFs (`npm run cv` copies them to `public/cv/`) |
+| `deploy/docker-compose.yml` | Compose file for the server |
+| `.github/workflows/deploy.yml` | Build, push and deploy on every push to `master` |
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+After editing `design/Main.dc.html`, run `npm run convert`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Deploy
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Every push to `master` builds the image, pushes it to GHCR and runs `docker compose pull && up -d` on the server over SSH (user `deploy`).
 
-## Learn More
+On the server, `/home/deploy/emircankaymaz/` holds `docker-compose.yml` and `tls.conf` from `deploy/`, plus `ssl/` with the origin certificate. The container uses host networking and serves HTTPS on port 8445, which ufw only opens to Cloudflare IP ranges. In Cloudflare, an Origin Rule rewrites the destination port to 8445 for `emircankaymaz.com` and `www.emircankaymaz.com` (SSL mode: Full).
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Repository secrets: `SSH_HOST`, `SSH_PORT`, `SSH_USER`, `SSH_KEY`.

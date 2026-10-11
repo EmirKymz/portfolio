@@ -1,29 +1,21 @@
 {
-  "name": "my_portfolio_dev",
-  "version": "0.1.0",
+  "name": "emircankaymaz-portfolio",
   "private": true,
+  "version": "2.0.0",
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "convert": "python tools/convert_dc.py",
+    "cv": "python cv/make_cv.py && cp cv/*.pdf public/cv/"
   },
   "dependencies": {
-    "framer-motion": "^11.3.31",
-    "graphql": "^16.9.0",
-    "graphql-request": "^7.1.0",
-    "next": "14.2.7",
-    "next-themes": "^0.3.0",
-    "nextjs-progressbar": "^0.0.16",
-    "react": "^18",
-    "react-dom": "^18",
-    "react-type-animation": "^3.2.0"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.15",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.7",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1"
+    "@vitejs/plugin-react": "4.3.4",
+    "vite": "5.4.11"
   }
 }

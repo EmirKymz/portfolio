@@ -1,0 +1,15 @@
+# Lives at /home/deploy/emircankaymaz/docker-compose.yml on the server, next to tls.conf and ssl/.
+# Host networking so ufw rules apply: port 8445 is only open to Cloudflare IP ranges.
+services:
+  web:
+    image: ghcr.io/emirkymz/portfolio:latest
+    container_name: emircankaymaz-web
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./tls.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8445 || exit 1"]
+      interval: 30s
+      timeout: 3s
